@@ -1,7 +1,9 @@
 import time
 import RPi.GPIO as GPIO
 import os
-import glob 
+import glob
+
+from variables import *
  
 # initialize 1wire
 os.system('modprobe w1-gpio')
@@ -9,24 +11,9 @@ os.system('modprobe w1-therm')
 
 # initialize GPIO
 GPIO.setmode(GPIO.BCM)
-gpio_pin = 24
 GPIO.setup(gpio_pin, GPIO.OUT)
-p = GPIO.PWM(gpio_pin, 500)  # frequency=500Hz
+p = GPIO.PWM(gpio_pin, frequency) 
 p.start(0)
-
-
-# initialize general variables
-p_h = 0.0 # (Watt) current power at house-grid-connection
-p_c = 0.0 # (Watt) current power to zero
-p_max = 2000 # (Watt) maximum power consumption
-p_buffer = 100.0 # (watt) Buffer to not pull from the grid.
-t_c = 25.0 # °C current temperature
-t_max = 75.0 # °C max temp
-
-# initliaze temperature variables
-t_sensorname = "28-0000000d756b" # ID of 1-Wire temperature sensor
-base_dir = '/sys/bus/w1/devices/' # not to change
-device_file = base_dir + t_sensorname + '/w1_slave' # not to change
 
 def read_temp_raw():
     """Reads raw output file of 1 wire protocol of the specified sensor.
@@ -54,6 +41,7 @@ def measure_t_c():
         temp = read_temp()
     except:
         temp = None
+    print(f"Measured Temperature is {temp} °C")
     return temp
 
 def measure_p_h():
@@ -83,14 +71,12 @@ def set_new_p_c(p_new: float):
     Returns set p_c or None if error. 
     """
     # boundaries
-    dc_max = 50 # for leds max duty cycle power restriction
-
     if p_new > 0: # only positive powers
         if p_new > p_max: # max power is limit
             p_new = p_max
         dc = p_new / p_max * dc_max # linear function mx + b
         print(f"Duty cycle {dc:{1}.{3}} %")
-        p.ChangeDutyCycle(dc) # turn led on, 50% is enough for leds
+        p.ChangeDutyCycle(dc) 
     else:
         p.ChangeDutyCycle(0) # turn led off
     return p_new
@@ -101,7 +87,7 @@ try:
         print(f"New power to be set {p_c} Watts")
         p_c = set_new_p_c(p_c)
         print(f"New power to set {p_c} Watts")
-except KeyboardInterrupt:
+except:
     pass
     # free GPIO settings
     p.stop()
