@@ -1,0 +1,11 @@
+[Unit]
+Description=Excess PV of an SMA SHM 2.0 is rooted into a boiler that should not exceed a certain temperature.
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /home/lukas/development/excesspv-to-singleload/main.py
+
+[Install]
+WantedBy=multi-user.target

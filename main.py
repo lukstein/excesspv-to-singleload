@@ -20,8 +20,11 @@ os.system('modprobe w1-therm')
 # initialize GPIO for PWM
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(gpio_pin, GPIO.OUT)
+GPIO.setup(gpio_pin_led, GPIO.OUT)
 p = GPIO.PWM(gpio_pin, frequency) 
+p_led = GPIO.PWM(gpio_pin_led, frequency_led) 
 p.start(0)
+p_led.start(0)
 
 ### temperature functions
 def read_temp_raw():
@@ -115,13 +118,19 @@ def set_new_p_c(p_new: float):
     """
     # boundaries
     if p_new > 0: # only positive powers
+        # calculate new duty cycle load
         if p_new > p_max: # max power is limit
             p_new = p_max
         dc = p_new / p_max * dc_max # linear function mx + b
         logging.info(f"Duty cycle {dc:{1}.{3}} %")
         p.ChangeDutyCycle(dc) 
+        # calculate new duty cycle led
+        dc_led = dc * dc_max_led/dc_max
+        p_led.ChangeDutyCycle(dc_led)
+        logging.info(f"Duty cycle of led {dc_led:{1}.{3}} %")
     else:
-        p.ChangeDutyCycle(0) # turn led off
+        p.ChangeDutyCycle(0) # turn load off
+        p_led.ChangeDutyCycle(0) # turn led off
     return p_new
 
 def main():
@@ -133,12 +142,12 @@ def main():
             logging.info(f"New power to be set {p_c} Watts")
             p_c = set_new_p_c(p_c)
             logging.info(f"New power to set {p_c} Watts")
-            time.sleep(10)
+            time.sleep(t_cycle)
     except KeyboardInterrupt:
         pass
         # free GPIO settings
         p.stop()
-        GPIO.cleanup(gpio_pin)
+        GPIO.cleanup([gpio_pin, gpio_pin_led])
 
 logging.info(__name__)
 if __name__ == "__main__":
