@@ -7,4 +7,5 @@ The application works as a service. To make the script a service copy the file e
 Code to execute:
 ```sudo systemctl daemon-reload
 sudo systemctl enable flashled.service
-sudo systemctl start flashled.service
+sudo systemctl start flashled.service```
+
