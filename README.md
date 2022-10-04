@@ -17,7 +17,7 @@ sudo systemctl start flashled.service
 Variables are defined in `variables.py`.
 
 ## Pin setup on RPi
-<img src="https://github.com/lukstein/excesspv-to-singleload/blob/main/singleload_pinbelegung.png" alt="RPi 3B+ Pin usage" title="Pin usage" width="400"/>
+<img src="https://github.com/lukstein/excesspv-to-singleload/blob/main/singleload%20pinbelegung.png" alt="RPi 3B+ Pin usage" title="Pin usage" width="400"/>
 
 ## Program flow
 <img src="https://github.com/lukstein/excesspv-to-singleload/blob/main/programmablauf%20singleload.png" alt="Program flow" title="Program flow" width="300"/>
