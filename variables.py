@@ -1,3 +1,6 @@
+# logfile
+logfile = "/var/log/excesspv-to-singleload.service.log"
+
 # initialize general variables
 t_cycle = 10 # seconds to pause after one control loop
 p_h = 0.0 # (Watt) current power at house-grid-connection

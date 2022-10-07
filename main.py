@@ -1,3 +1,6 @@
+# import settings
+from variables import *
+
 import time
 import RPi.GPIO as GPIO
 import os
@@ -6,12 +9,14 @@ import glob
 import logging
 
 logging.basicConfig(
-    format='%(asctime)s.%(msecs)03d %(levelname)-8s %(message)s',
     level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S')
-
-# import settings
-from variables import *
+    format='%(asctime)s.%(msecs)03d %(levelname)-8s %(message)s',
+    handlers=[
+        logging.FileHandler(logfile),
+        logging.StreamHandler()
+    ],
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
  
 # initialize 1wire for temperature sensors
 os.system('modprobe w1-gpio')
