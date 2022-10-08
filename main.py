@@ -171,7 +171,14 @@ def main():
         pass
         # free GPIO settings
         p.stop()
+        p_led.stop()
         GPIO.cleanup([gpio_pin, gpio_pin_led])
+    except:
+        # free GPIO settings
+        p.stop()
+        p_led.stop()
+        GPIO.cleanup([gpio_pin, gpio_pin_led])
+        logging.exception("")
 
 logging.info(__name__)
 if __name__ == "__main__":
