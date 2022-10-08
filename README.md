@@ -16,6 +16,18 @@ sudo systemctl start flashled.service
 ## Configuration
 Variables are defined in `variables.py`.
 
+## Log and log streaming
+The script writes logs to the logfile defined `variables.py`. The logs can be streamed using the frontail node.js framework. 
+Node.js, npm and in the following frontail need to be installed:
+```
+sudo apt install nodejs npm
+sudo npm i frontail -g
+```
+Once installed, the service frontail.service can be installed equivalently like the excesspv service but using the file `frontail.service`.
+
+Link to frontail: https://github.com/mthenw/frontail
+
+
 ## Pin setup on RPi
 <img src="https://github.com/lukstein/excesspv-to-singleload/blob/main/singleload%20pinbelegung.png" alt="RPi 3B+ Pin usage" title="Pin usage" width="400"/>
 
