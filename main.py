@@ -32,6 +32,8 @@ p.start(0)
 p_led.start(0)
 
 ### temperature functions
+t_hyst_bool = False # becomes true if t_max is exceeded to apply hysteresis.
+
 def read_temp_raw():
     """Reads raw output file of 1 wire protocol of the specified sensor.
     """
@@ -103,17 +105,34 @@ def calculate_new_p_c(p_old: float):
     """
     t_c = measure_t_c()
     p_h = measure_p_h()
+
+    # variable for hysteresis
+    global t_hyst_bool
+    t_max_temp = t_max
+    if  t_hyst_bool:
+        t_max_temp = t_max - t_hyst
+
+    # calculation of new p_c
     try: 
-        if t_c <= t_max:
+        if t_c <= t_max_temp:
             p_c = p_old - p_h - p_buffer
             if p_c < 0:
                 p_c = 0.0
         else:
             p_c = 0.0
-            logging.info(f"The measured temperature is {t_c} °C and exceeds {t_max}. Stop heating.")
+            logging.info(f"The measured temperature is {t_c} °C and exceeds {t_max_temp}. Stop heating.")
     except:
         p_c = 0
         logging.error("Error during the calculation of new p_c. Stop heating.")
+    
+    # activate / deactivate hysteresis for next cycle
+    if t_c > t_max:
+        t_hyst_bool = True
+        logging.info(f"Temperature hysteresis activated.")
+    if t_c <= t_max - t_hyst:
+        t_hyst_bool = False
+        logging.info(f"Temperature hysteresis deactivated.")
+
     return p_c
 
 def set_new_p_c(p_new: float):

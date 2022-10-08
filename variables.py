@@ -7,7 +7,8 @@ p_h = 0.0 # (Watt) current power at house-grid-connection
 p_c = 0.0 # (Watt) current power to zero
 p_max = 2000 # (Watt) maximum power consumption - at dc_max
 p_buffer = 100.0 # (watt) Buffer to not pull from the grid.
-t_max = 75.0 # °C max temp
+t_max = 50.0 # °C max temp
+t_hyst = 5.0 # °C hysteresis
 
 # initliaze temperature variables
 t_sensorname = "28-0000000d756b" # ID of 1-Wire temperature sensor
