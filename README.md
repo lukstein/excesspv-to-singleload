@@ -23,7 +23,7 @@ Node.js, npm and in the following frontail need to be installed:
 sudo apt install nodejs npm
 sudo npm i frontail -g
 ```
-Once installed, the service frontail.service can be installed equivalently like the excesspv service but using the file `frontail.service`.
+Once installed, the service frontail.service can be installed equivalently like the excesspv service but using the file `frontail.service`. The script runs at every startup and the log stream can be accessed through http://host:9001
 
 Link to frontail: https://github.com/mthenw/frontail
 
