@@ -146,7 +146,7 @@ def main():
             p_c = calculate_new_p_c(p_c)
             logging.info(f"New power to be set {p_c} Watts")
             p_c = set_new_p_c(p_c)
-            logging.info(f"New power to set {p_c} Watts")
+            logging.info(f"New power set to {p_c} Watts")
             time.sleep(t_cycle)
     except KeyboardInterrupt:
         pass

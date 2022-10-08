@@ -1,0 +1,9 @@
+[Unit]
+Description=Frontail web server to tail logs of excess pv service.
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/lukas/development/excesspv-to-singleload/start_frontail.sh
+
+[Install]
+WantedBy=multi-user.target
