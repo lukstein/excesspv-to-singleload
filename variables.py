@@ -25,6 +25,10 @@ dc_max_led = 30 # for leds max duty cycle power restriction
 
 
 # initialize power variables
-if_p_consume = "/run/shm/em-3006126044-pconsume" # ID of G16 SMA SHM 2.0 / file name of current consumption over all phases
-if_p_supply = "/run/shm/em-3006126044-psupply" # ID of G16 SMA SHM 2.0 / file name of current consumption over all phases
 max_age = 180 # maximum allowed age in seconds of measurements of p_c before shut down
+### G16 STP 10
+# if_p_consume = "/run/shm/em-3006126044-pconsume" # ID of G16 SMA SHM 2.0 / file name of current consumption over all phases
+# if_p_supply = "/run/shm/em-3006126044-psupply" # ID of G16 SMA SHM 2.0 / file name of current consumption over all phases
+### H3 S10 E3DC
+if_p_consume = "/run/e3dc/ruth-pconsume" # file name of current consumption over all phases
+if_p_supply = "/run/e3dc/ruth-psupply" # file should always contain 0
