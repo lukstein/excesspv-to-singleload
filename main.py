@@ -1,5 +1,6 @@
 # import settings
 from variables import *
+import influxdbconnector as idb
 
 import time
 import RPi.GPIO as GPIO
@@ -7,6 +8,7 @@ import os
 import glob
 
 import logging
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -62,9 +64,16 @@ def measure_t_c():
         temp = None
         logging.error("Temperature measurement failed.")
     logging.info(f"Measured Temperature is {temp} °C")
+    # write to influx db
+    try:
+        idb.write_point(measurement, ('location', location), ('temperature', temp))
+    except:
+        logging.error("Writing temperature to influxdb failed.")
     return temp
 
 ### power functions
+p_c = None
+p_h = None
 def read_power_file(filename: str, max_age: int):
     """Reads float value from file that contains a single float value.
     The last update of the file is not supposed to be older that "sec" seconds.
@@ -96,6 +105,11 @@ def measure_p_h():
         p = None
         logging.error(f"Measurement of power at house-grid connection (p_h) failed.")
     logging.info(f"The current p_h is {p} Watts.")
+    # write to influx db
+    try:
+        idb.write_point(measurement, ('location', location), ('power_house', p))
+    except:
+        logging.error("Writing power_house to influxdb failed.")
     return p
 
 def calculate_new_p_c(p_old: float):
@@ -122,7 +136,7 @@ def calculate_new_p_c(p_old: float):
             p_c = 0.0
             logging.info(f"The measured temperature is {t_c} °C and exceeds {t_max_temp}. Stop heating.")
     except:
-        p_c = 0
+        p_c = 0.0
         logging.error("Error during the calculation of new p_c. Stop heating.")
     
     # activate / deactivate hysteresis for next cycle
@@ -132,7 +146,6 @@ def calculate_new_p_c(p_old: float):
     if t_c <= t_max - t_hyst:
         t_hyst_bool = False
         logging.info(f"Temperature hysteresis deactivated.")
-
     return p_c
 
 def set_new_p_c(p_new: float):
@@ -162,11 +175,23 @@ def main():
     try:
         while True:
             logging.info('Start of new cycle.')
+
             p_c = calculate_new_p_c(p_c)
             logging.info(f"New power to be set {p_c} Watts")
+            try:
+                idb.write_point(measurement, ('location', location), ('target_power', int(p_c)))
+            except:
+                logging.error("Writing target power to influxdb failed.")
+
             p_c = set_new_p_c(p_c)
             logging.info(f"New power set to {p_c} Watts")
+            try:
+                idb.write_point(measurement, ('location', location), ('set_power', int(p_c)))
+            except:
+                logging.error("Writing set power to influxdb failed.")
+
             time.sleep(t_cycle)
+
     except KeyboardInterrupt:
         pass
         # free GPIO settings
