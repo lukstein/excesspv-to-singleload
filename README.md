@@ -3,6 +3,7 @@ This script detects excess PV power and supplies this power to an ohm type load.
 
 ## Supported Power Measurements
 * SMA SHM 2.0 via Multicast - check out this https://www.unifox.at/software/sma-em-daemon/
+* E3DC S10 via RSCP - check out https://github.com/fsantini/python-e3dc
 
 ## Service in Linux
 The application works as a service. To make the script a service copy the file excesspv-to-singleload.service to /etc/systemd/system/ and reload the deamons, enable and start.
