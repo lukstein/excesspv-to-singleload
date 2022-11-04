@@ -128,15 +128,22 @@ def calculate_new_p_c(p_old: float):
 
     # calculation of new p_c
     try: 
-        if t_c <= t_max_temp:
-            p_c = p_old - p_h - p_buffer
-            if p_c < 0:
+        if t_c <= t_max_temp: # prüfe ob zu heiß
+            if p_h < (-p_damp*p_buffer): # überschuss ja/nein?
+                p_c = p_old - p_damp * p_h
+            elif p_h > 0: # hysteresis zwischen 0 und p_buffer
+                p_c = p_old - p_h - p_buffer
+            elif:
+		p_c = p_old
+
+            if p_c < 0: # nur Werte > 0 sind sinnvoll
                 p_c = 0.0
         else:
             p_c = 0.0
             logging.info(f"The measured temperature is {t_c} °C and exceeds {t_max_temp}. Stop heating.")
     except:
         p_c = 0.0
+        logging.exception("")
         logging.error("Error during the calculation of new p_c. Stop heating.")
     
     # activate / deactivate hysteresis for next cycle
