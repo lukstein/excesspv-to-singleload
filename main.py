@@ -134,7 +134,7 @@ def calculate_new_p_c(p_old: float):
             elif p_h > 0: # hysteresis zwischen 0 und p_buffer
                 p_c = p_old - p_h - p_buffer
             else:
-		p_c = p_old
+                p_c = p_old
 
             if p_c < 0: # nur Werte > 0 sind sinnvoll
                 p_c = 0.0
