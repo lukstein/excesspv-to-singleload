@@ -58,6 +58,11 @@ def read_temp():
 def measure_t_c():
     """Measures current temperature of boiler.
     Returns temperature or None if error."""
+    return 50    
+    
+def measure_t_c_2(): # rename this function to activate T measurement
+    """Measures current temperature of boiler.
+    Returns temperature or None if error."""
     try: 
         temp = read_temp()
     except:
