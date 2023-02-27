@@ -2,17 +2,17 @@
 logfile = "/var/log/excesspv-to-singleload.service.log" # /var can only be used if run as sudo
 # location = "Hinterkirch 3"
 location = "G 16"
-measurement = "boiler"
+measurement = "acthor9s"
 
 # initialize general variables
 t_cycle = 10 # seconds to pause after one control loop
-p_max = 2000 # (Watt) maximum power consumption - at dc_max
+p_max = 9000 # (Watt) maximum power consumption - at dc_max
 p_buffer = 100.0 # (watt) Buffer to not pull from the grid.
 p_damp = 0.5 # Dampening factor to avoid oscillation
-t_max = 65.0 # °C max temp
-t_hyst = 5.0 # °C hysteresis
+t_max = 65.0 # °C max temp -> not needed with acthor
+t_hyst = 5.0 # °C hysteresis -> not needed with acthor
 
-# initliaze temperature variables
+# initliaze temperature variables -> not needed with acthor
 t_sensorname = "28-0000000d756b" # ID of 1-Wire temperature sensor
 base_dir = '/sys/bus/w1/devices/' # not to change
 device_file = base_dir + t_sensorname + '/w1_slave' # not to change
