@@ -15,7 +15,7 @@ sudo systemctl enable excesspv-to-singleload.service
 sudo systemctl start excesspv-to-singleload.service
 ```
 ## Configuration
-Variables are defined in `variables.py`.
+Variables are defined in `variables.py`. Rename `influxlogin.example.py` into `influxlogin.py` and fill in your credentials.
 
 ## Log and log streaming
 The script writes logs to the logfile defined `variables.py`. The logs can be streamed using the frontail node.js framework. 
