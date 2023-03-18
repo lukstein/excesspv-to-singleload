@@ -11,8 +11,8 @@ The application works as a service. To make the script a service copy the file e
 Code to execute to start service:
 ```
 sudo systemctl daemon-reload
-sudo systemctl enable flashled.service
-sudo systemctl start flashled.service
+sudo systemctl enable excesspv-to-singleload.service 
+sudo systemctl start excesspv-to-singleload.service
 ```
 ## Configuration
 Variables are defined in `variables.py`.

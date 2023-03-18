@@ -91,7 +91,7 @@ def read_power_file(filename: str, max_age: int):
         
         age_abs=os.stat(filename)
         age = (time.time()-age_abs.st_mtime) 
-        logging.info(f"Age of file {filename} is {age} seconds.")
+        logging.info(f"Age of file {filename} is {age:.2f} seconds.")
         if age > max_age:
             output = None
     except:
@@ -113,8 +113,9 @@ def measure_p_h():
     # write to influx db
     try:
         idb.write_point(measurement, ('location', location), ('power_house', p))
-    except:
+    except Exception as e:
         logging.error("Writing power_house to influxdb failed.")
+        print(e)
     return p
 
 def calculate_new_p_c(p_old: float):

@@ -6,7 +6,7 @@ measurement = "acthor9s"
 
 # initialize general variables
 t_cycle = 10 # seconds to pause after one control loop
-p_max = 9000 # (Watt) maximum power consumption - at dc_max
+p_max = 6000 # (Watt) maximum power consumption - at dc_max
 p_buffer = 100.0 # (watt) Buffer to not pull from the grid.
 p_damp = 0.5 # Dampening factor to avoid oscillation
 t_max = 65.0 # °C max temp -> not needed with acthor
